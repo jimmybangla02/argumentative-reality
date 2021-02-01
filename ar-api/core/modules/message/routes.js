@@ -2,7 +2,7 @@ const MessageHandler = require("./handler/message-handler");
 
 module.exports = [
     {
-        method: 'POST',
+        method: 'GET',
         path: '/send-message/',
         config: {
             handler: MessageHandler.sendMessage,

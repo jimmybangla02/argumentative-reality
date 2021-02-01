@@ -22,6 +22,7 @@
     "node-fetch": "^2.6.0",
     "nodemailer": "^6.4.17",
     "peaks.js": "^0.16.0",
+    "twilio": "^3.55.1",
     "vision": "^4.1.1"
   },
   "devDependencies": {
