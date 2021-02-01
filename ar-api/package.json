@@ -20,6 +20,7 @@
     "lodash": "^4.17.4",
     "node-env-file": "^0.1.8",
     "node-fetch": "^2.6.0",
+    "nodemailer": "^6.4.17",
     "peaks.js": "^0.16.0",
     "vision": "^4.1.1"
   },

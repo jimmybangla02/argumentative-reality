@@ -1,4 +1,3 @@
-
 class MessageHandler {
     static sendMessage(request, reply) {
         reply('ddd')

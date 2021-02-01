@@ -5,6 +5,7 @@ import {LogoutComponent} from './view/pages/logout/logout.component';
 import {LoginComponent} from './view/pages/login/login.component';
 import {VideoDetectionComponent} from './view/pages/video-detection/video-detection.component';
 import {DashboardComponent} from './view/pages/dashboard/dashboard.component';
+import {AuthGuard} from './auth.guard';
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    component: DashboardComponent,
+    // canActivate: [AuthGuard]
   },
   {
     path: 'video-detection',
