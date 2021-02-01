@@ -1,0 +1,29 @@
+{
+  "name": "ar-api",
+  "version": "0.1.0",
+  "description": "",
+  "main": "server.js",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "start:server": "nodemon server.js"
+  },
+  "dependencies": {
+    "blob": "^0.1.0",
+    "boom": "^5.2.0",
+    "canvas": "latest",
+    "circular-json": "^0.5.1",
+    "hapi": "^16.6.2",
+    "hapi-swagger": "^7.7.1",
+    "inert": "^4.2.1",
+    "joi": "^10.6.0",
+    "lodash": "^4.17.4",
+    "node-env-file": "^0.1.8",
+    "node-fetch": "^2.6.0",
+    "peaks.js": "^0.16.0",
+    "vision": "^4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
