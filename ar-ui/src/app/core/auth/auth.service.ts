@@ -17,7 +17,7 @@ export class AuthService extends BaseService {
     private http: HttpClient,
     private userService: UserService,
     private store: Store<AppState>) {
-    super(null);
+    super();
   }
 
   getAuthDetails()  {

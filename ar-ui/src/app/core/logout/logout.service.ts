@@ -19,15 +19,15 @@ export class LogoutService extends BaseService {
   isLoading = new Subject();
 
   constructor(private api: APIService,
-    private http: HttpClient,
-    private store: Store<AppState>,
-    private router: Router) {
-    super(null);
+              private http: HttpClient,
+              private store: Store<AppState>,
+              private router: Router) {
+    super();
   }
 
   logout(): void {
     this.isLoading.next({ status: true });
-    this.http.get('/api/applogout', {}).subscribe((s) => {
+    this.http.get('/api/logout', {}).subscribe((s) => {
       this.clearSession();
       this.isLoading.next({ status: false });
 
@@ -39,17 +39,18 @@ export class LogoutService extends BaseService {
   }
 
   clearSession() {
-    const cookies = document.cookie.split(";");
+    const cookies = document.cookie.split(';');
+    // tslint:disable-next-line:prefer-for-of
     for (let i = 0; i < cookies.length; i++) {
       const cookie = cookies[i];
-      const eqPos = cookie.indexOf("=");
+      const eqPos = cookie.indexOf('=');
       const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-      document.cookie = name + "Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+      document.cookie = name + 'Path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT';
     }
-    localStorage.removeItem('ibcuser');
+    localStorage.removeItem('user');
     this.store.dispatch(new ResetUserDetails());
     this.store.dispatch(new ResetAuthentication());
-    window.open(environment.logoutUrl + window.location.origin, '_self');
+    // window.open(environment.logoutUrl + window.location.origin, '_self');
   }
 
 

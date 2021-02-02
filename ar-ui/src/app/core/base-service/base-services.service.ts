@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { technicalErrorMessage, forbiddenMessage } from './message';
-import { MyToasterService } from '../../common/toastr-service/toastr.service'
 
 
 @Injectable({
@@ -9,7 +8,9 @@ import { MyToasterService } from '../../common/toastr-service/toastr.service'
 })
 export class BaseService {
 
-  constructor(public toastrService:MyToasterService) {
+  constructor(
+    // public toastrService:MyToasterService
+  ) {
    }
 
   errorInfo = new Subject();
@@ -47,9 +48,9 @@ export class BaseService {
     let errorMessage = '';
     errorMessage += `${title} : ${message}`;
     errorDetails.msg = errorMessage;
-    if(this.toastrService) {
-        this.toastrService.showErrorToast();
-    }
+    // if(this.toastrService) {
+    //     this.toastrService.showErrorToast();
+    // }
   }
 
   displayServerWarning(message?, title?) {
@@ -63,16 +64,15 @@ export class BaseService {
     let errorMessage = '';
     errorMessage += `${title} : ${message}`;
     errorDetails.msg = errorMessage;
-    if(this.toastrService) {
-        this.toastrService.showWarningToast();
-    }
+    // if(this.toastrService) {
+    //     this.toastrService.showWarningToast();
+    // }
   }
 
   showMessages(errorMessage, title) {
     // write a custom message ui
-    if (this.toastrService) {
-      this.toastrService.showErrorMsg(errorMessage, title);
-    }
+    // if (this.toastrService) {
+    //   this.toastrService.showErrorMsg(errorMessage, title);
+    // }
   }
-  
 }

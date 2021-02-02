@@ -5,33 +5,21 @@ const Twilio = require('twilio');
 class MessageHandler {
     static sendMessage(request, reply) {
 
-        const accountId = process.env.TWILIO_ACCOUNT_SID;
-        const authToken = process.env.TWILIO_AUTH_TOKEN;
-
-
-
+        const accountId = "AC5359c04d1f014a8f340223ac74f68c81"; //config.get('TWILIO_ACCOUNT_SID');
+        const authToken = "5604c81dcd7123c87f1d5a3ee806394d"; // config.get('TWILIO_AUTH_TOKEN');
         const client = new Twilio(accountId, authToken)
-
-        console.log(accountId, authToken, client, 'client');
-
         const phoneNumber = `+1${request.payload.phone}`;
         const msgBody = request.payload.message;
 
-        console.log(phoneNumber, msgBody, 'dd');
-
-        client.messages.create({
+        /*client.messages.create({
+            messagingServiceSid: "MGd15761daa54834ae19b50e56423d13b1", //config.get('TWILIO_MESSAGE_SID_ACCOUNT'),
             to: phoneNumber,
-            from: process.env.TWILIO_NUMBER,
             body: msgBody
         }).then(message => {
-            console.log(message.sid)
-            reply(message.sid)
+            reply(message)
         }).catch(error => {
-            console.log('error', error.message);
             reply(error.message)
-        })
-
-        // reply(message.sid)
+        }).done();*/
     }
 }
 

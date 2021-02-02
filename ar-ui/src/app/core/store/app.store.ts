@@ -7,17 +7,21 @@ import {AuthDetailsState} from '../auth/auth.store';
 import {UserDetailsState} from '../user/user.store';
 import {authDetailsReducer} from '../auth/auth.reducer';
 import {userDetailsReducer} from '../user/user.reducer';
+import {DeviceState} from '../device/device.store';
+import {deviceReducer} from '../device/device.reducer';
 
 export interface AppState {
-  ImageDetection?: ObjectDetectionState;
+  IImageDetection?: ObjectDetectionState;
   IUserDetails: UserDetailsState;
   IAuthDetails?: AuthDetailsState;
+  IDevice?: DeviceState;
 }
 
 export const appReducer: ActionReducerMap<any> = {
   IAuthDetails: authDetailsReducer,
   IUserDetails: userDetailsReducer,
-  ImageDetection: objectDetectionReducer
+  IImageDetection: objectDetectionReducer,
+  IDevice: deviceReducer
 };
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {

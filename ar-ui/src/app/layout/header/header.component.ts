@@ -9,9 +9,10 @@ import { Router, NavigationEnd  } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   nav = [
-    {name: 'Dashboard', path: '/dashboard'},
-    {name: 'Video Detection', path: '/video-detection'}
+    {name: 'Dashboard', path: '/dashboard'}
   ];
+
+  user = 'John Adam';
 
   currentRouter: string;
 
@@ -25,6 +26,11 @@ export class HeaderComponent implements OnInit {
         this.currentRouter = selectedPage.url;
       }
     });
+  }
+
+  getUser(user) {
+    // const res = user.substring(0, 2);
+    return user;
   }
 
 }

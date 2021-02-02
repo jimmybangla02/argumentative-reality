@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "object-detection-ui": {
+    "ar-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/object-detection-ui",
+            "outputPath": "dist/ar-ui",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -35,7 +35,8 @@
             "scripts": [
               "node_modules/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js",
               "node_modules/@webcomponents/webcomponentsjs/webcomponents-bundle.js",
-              "node_modules/@clr/icons/clr-icons.min.js"
+              "node_modules/@clr/icons/clr-icons.min.js",
+              "node_modules/simple-peer/simplepeer.min.js"
             ]
           },
           "configurations": {
@@ -72,18 +73,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "object-detection-ui:build"
+            "browserTarget": "ar-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "object-detection-ui:build:production"
+              "browserTarget": "ar-ui:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "object-detection-ui:build"
+            "browserTarget": "ar-ui:build"
           }
         },
         "test": {
@@ -120,18 +121,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "object-detection-ui:serve"
+            "devServerTarget": "ar-ui:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "object-detection-ui:serve:production"
+              "devServerTarget": "ar-ui:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "object-detection-ui",
+  "defaultProject": "ar-ui",
   "cli": {
     "analytics": false
   }

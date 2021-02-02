@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
+import {FormsModule} from "@angular/forms";
+import {WebcamModule} from "ngx-webcam";
 
 
 
@@ -8,7 +10,9 @@ import { DashboardComponent } from './dashboard.component';
   declarations: [DashboardComponent],
   exports: [DashboardComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule,
+    WebcamModule
   ]
 })
 export class DashboardModule { }

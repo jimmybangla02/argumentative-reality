@@ -18,7 +18,7 @@ export class UserService extends BaseService {
 
   constructor(private http: HttpClient,
               private store: Store<AppState>) {
-    super(null);
+    super();
   }
 
   getUserDetails(): void {
