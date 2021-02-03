@@ -1,10 +1,18 @@
 <input type="text" [(ngModel)]="targetPeer">
 <!--<textarea [(ngModel)]="targetPeer"></textarea>-->
   <button (click)="connect()">Connect</button>
-  <button (click)="start()">camera</button>
+  <button (click)="disconnect()">Disconnect</button>
   <button (click)="sound()">sound</button>
-  <button (click)="message()">Send Message</button>
-  <button (click)="toggleControls()">toggle control</button>
+  <button (click)="sendMessage(messageId)">Send Message</button>
+  <button (click)="pause()">Pause</button>
+  <button (click)="resume()">Resume</button>
+
+<!--  <button (click)="toggleControls()">toggle control</button>-->
 <br />
 
-<video width="320" height="240" controls></video>
+<video width="320" height="240"></video>
+
+<br />
+<ul>
+  <li *ngFor="let m of message"> {{m}}</li>
+</ul>
