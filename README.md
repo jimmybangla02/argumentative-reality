@@ -1,5 +1,4 @@
-# Object Detection Process
-#### Concept taken from tfjs-examples-sentiment. Setup dynamic code base to make work end to end.
+# Argumentative reality
 
 # Run Application
 ### API
