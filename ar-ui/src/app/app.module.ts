@@ -13,8 +13,10 @@ import {UnauthorizedModule} from './view/pages/unauthorized/unauthorized.module'
 import {LogoutModule} from './view/pages/logout/logout.module';
 import {LoginModule} from './view/pages/login/login.module';
 import { HttpClientModule,  HTTP_INTERCEPTORS } from '@angular/common/http';
-import {VideoDetectionModule} from './view/pages/video-detection/video-detection.module';
 import {DashboardModule} from './view/pages/dashboard/dashboard.module';
+import {AngularFireAuthModule} from '@angular/fire/auth';
+import {AngularFireDatabaseModule} from '@angular/fire/database';
+import {AngularFireModule} from '@angular/fire';
 
 @NgModule({
   declarations: [
@@ -33,9 +35,11 @@ import {DashboardModule} from './view/pages/dashboard/dashboard.module';
     UnauthorizedModule,
     LogoutModule,
     LoginModule,
-    VideoDetectionModule,
     DashboardModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig, 'argumentative-reality'),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

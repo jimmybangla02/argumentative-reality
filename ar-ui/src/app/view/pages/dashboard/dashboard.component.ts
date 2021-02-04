@@ -1,5 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { Instance, SignalData } from 'simple-peer';
+import { Router, ActivatedRoute } from '@angular/router';
+import {SetUrlService} from '../../../core/set-url/set-url.service';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -8,161 +11,138 @@ import { Instance, SignalData } from 'simple-peer';
 })
 export class DashboardComponent implements OnInit {
   video: any;
-  peer1: Instance;
-  peer2: Instance;
+  peer: Instance;
   targetPeer: any;
   displayControls: boolean;
-  message = [];
-  messageId: string;
+  clientUrl = '';
+  fullUrlPath = '';
+  isClientUrlPath: boolean;
+  dashBardId = '';
 
-  constructor() { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private setUrlService: SetUrlService) {
+    this.setUrlService.getUrl(environment.databaseQuery.urlPathRef, 'hjhj').subscribe(d => {
+      this.clientUrl = Object.keys(d).toString();
+      if (!this.dashBardId && Object.keys(d).length > 0) {
+        const obj = {
+          sdp: d[Object.keys(d)[0]].sdp,
+          type: d[Object.keys(d)[0]].type
+        };
+        this.targetPeer = JSON.stringify(obj);
+        if (d[Object.keys(d)[0]].type === 'answer') {
+
+          setTimeout(() => {
+            this.connect();
+            this.deleteUrl();
+          }, 2000);
+        }
+      }
+    });
+  }
 
   ngOnInit() {
-    // navigator.mediaDevices.getUserMedia({
-    //   video: {
-    //     width: { min: 320, ideal: 1280, max: 1920 },
-    //     height: { min: 240, ideal: 720, max: 1080 }
-    //   },
-    //   audio: true
-    // }).then(this.gotMedia).catch(() => {});
+
+    this.route.params.subscribe(param => {
+      if (param.dashboardId){
+        this.clientUrl = param.dashboardId;
+        this.dashBardId =  param.dashboardId;
+        this.setUrlService.getKeysDetails(environment.databaseQuery.urlPathRef, this.clientUrl).subscribe(data => {
+          if (data) {
+            this.targetPeer = JSON.stringify(data[0]);
+            if (data[0].type === 'offer') {
+              setTimeout(() => {
+                this.connect();
+              }, 2000);
+            }
+          }
+        });
+      }
+    });
 
 
     const video: any = document.querySelector('video');
     this.video = video;
-    let peer1: any;
-    let peer2: any;
+    let peerx: any;
 
     navigator.mediaDevices.getUserMedia({
       video: true,
       audio: true
     }).then(stm => {
-      peer1 = new SimplePeer({ initiator: true, stream: stm });
-      peer2 = new SimplePeer();
-
-      peer1.on('signal', data => {
-        peer2.signal(data);
-        // console.log(JSON.stringify(data));
-        // this.targetPeer = data;
+      peerx = new SimplePeer({ initiator: true, trickle: false, stream: stm });
+      peerx.on('error', err => console.log('error', err));
+      peerx.on('signal', data => {
+        this.targetPeer = JSON.stringify(data);
+        if (this.isClientUrlPath) {
+          this.setUrlService.updateItem(environment.databaseQuery.urlPathRef, this.clientUrl, JSON.parse(this.targetPeer));
+        }
       });
 
-      peer2.on('signal', data => {
-        peer1.signal(data);
+      peerx.on('data', data => {
+        console.log('Received message: ', data);
       });
 
-      peer2.on('stream', stream => {
-        console.log(stream, 'jimmy')
+      peerx.on('stream', stream => {
         if ('srcObject' in this.video) {
           this.video.srcObject = stream;
         }else {
           this.video.src = window.URL.createObjectURL(stream);
         }
-
-        peer1.on('connect', () => {
-          peer1.send('hey peer2, how is it going?');
-        });
-
-        /*peer2.on('data', data => {
-          // got a data channel message
-          this.message.push(data);
-          console.log('got a message from peer1: ' + data);
-        });*/
         this.video.play();
       });
-
-      // peer1.on('signal', data => {
-      //   console.log(JSON.stringify(data));
-      //   this.targetPeer = data;
-      // });
-      //
-      // peer1.on('data', data => {
-      //   console.log('Received message: ', data);
-      // });
-      //
-      // peer1.on('stream', stream => {
-      //   if ('srcObject' in this.video) {
-      //     this.video.srcObject = stream;
-      //   }else {
-      //     this.video.src = window.URL.createObjectURL(stream);
-      //   }
-      //   this.video.play();
-      // });
 
     }).catch(() => {});
 
     setTimeout(() => {
-     this.peer1 = peer1;
-     this.peer2 = peer2;
-    }, 5000);
+     this.peer = peerx;
+    }, 2000);
   }
 
   connect() {
-    this.peer1.signal(JSON.parse(this.targetPeer));
+    if (this.dashBardId) {
+     this.isClientUrlPath = true;
+    }
+    this.peer.signal(this.targetPeer);
   }
 
-  addMedia(stream) {
-    this.peer1.addStream(stream); // <- add streams to peer dynamically
+  createUrl() {
+    this.setUrlService.createDynamicUrl(environment.databaseQuery.urlPathRef, JSON.parse(this.targetPeer));
+  }
+
+  deleteUrl() {
+    this.setUrlService.deleteItem(environment.databaseQuery.urlPathRef, this.clientUrl);
+  }
+
+  copyInputMessage(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
   }
 
   disconnect() {
-    this.peer1.on('close', (da) => {
-      console.log(da)
-    })
+
   }
 
-  gotMedia(stm) {
-    const video: any = document.querySelector('video');
-    const peer1 = new SimplePeer({ initiator: true, stream: stm });
-    const peer2 = new SimplePeer();
-
-    peer1.on('signal', data => {
-      peer2.signal(data);
-    });
-
-    peer2.on('signal', data => {
-      peer1.signal(data);
-    });
-
-    peer2.on('stream', stream => {
-      if ('srcObject' in video) {
-        video.srcObject = stream;
-      }else {
-        video.src = window.URL.createObjectURL(stream);
-      }
-
-      peer1.on('connect', () => {
-        peer1.send('hey peer2, how is it going?');
-      });
-
-      peer2.on('data', data => {
-        // got a data channel message
-        console.log('got a message from peer1: ' + data);
-      });
-      video.play();
-    });
+  getFullUrl(path) {
+    this.fullUrlPath = `${window.location.protocol}//${window.location.host}/#/dashboard/${path}`;
+    return this.fullUrlPath;
   }
 
-  sendMessage(msg) {
-    this.peer1.send(msg);
+  sendUrl() {
+    const message = this.fullUrlPath;
+    const phone = '2135688885';
+    const obj: any = {};
+    obj.message = message;
+    obj.phone = phone;
+    this.setUrlService.sendMessage('message', obj);
   }
 
-
-  sound() {
-    navigator.mediaDevices.getUserMedia({
-      video: {
-        width: { min: 320, ideal: 1280, max: 1920 },
-        height: { min: 240, ideal: 720, max: 1080 }
-      },
-      audio: false
-    }).then(this.gotMedia).catch(() => {});
+  message() {
+    this.peer.send('Hello Word');
   }
 
   pause() {
     this.video.pause();
-  }
-
-  toggleControls() {
-    this.video.controls = this.displayControls;
-    this.displayControls = !this.displayControls;
   }
 
   resume() {

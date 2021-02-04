@@ -11,7 +11,7 @@ class MessageHandler {
         const phoneNumber = `+1${request.payload.phone}`;
         const msgBody = request.payload.message;
 
-        /*client.messages.create({
+        client.messages.create({
             messagingServiceSid: "MGd15761daa54834ae19b50e56423d13b1", //config.get('TWILIO_MESSAGE_SID_ACCOUNT'),
             to: phoneNumber,
             body: msgBody
@@ -19,7 +19,7 @@ class MessageHandler {
             reply(message)
         }).catch(error => {
             reply(error.message)
-        }).done();*/
+        }).done();
     }
 }
 

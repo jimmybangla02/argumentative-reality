@@ -1,18 +1,21 @@
-<input type="text" [(ngModel)]="targetPeer">
-<!--<textarea [(ngModel)]="targetPeer"></textarea>-->
-  <button (click)="connect()">Connect</button>
+
+
+  <button (click)="createUrl()">Create New URL</button>
+  <button (click)="deleteUrl()">Delete URL</button>
+<!--  <button (click)="connect()">Connect</button>-->
+  <button (click)="sendUrl()">Send URL</button>
   <button (click)="disconnect()">Disconnect</button>
-  <button (click)="sound()">sound</button>
-  <button (click)="sendMessage(messageId)">Send Message</button>
+  <!--<button (click)="message()">Send Message</button>
   <button (click)="pause()">Pause</button>
-  <button (click)="resume()">Resume</button>
+  <button (click)="resume()">Resume</button>-->
 
-<!--  <button (click)="toggleControls()">toggle control</button>-->
-<br />
+  <div *ngIf="clientUrl">
+    <div [innerHTML]="getFullUrl(clientUrl)"></div>
+    <a href="{{fullUrlPath}}" target="_blank">Click for testing</a>
+  </div>
 
-<video width="320" height="240"></video>
+  <div>
+    <video width="500" height="500"></video>
+  </div>>
 
-<br />
-<ul>
-  <li *ngFor="let m of message"> {{m}}</li>
-</ul>
+

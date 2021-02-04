@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ObjectDetectionService } from './object-detection.service';
+import {SetUrlService} from './set-url.service';
+
 
 @NgModule({
   declarations: [],
   imports: [
     CommonModule
   ],
-  providers: [ObjectDetectionService]
+  providers: [SetUrlService]
 })
-export class ImageDetectionModule { }
+export class SetUrlModule { }
